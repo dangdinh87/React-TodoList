@@ -24,11 +24,10 @@ class App extends Component {
   }
   componentWillMount() {
     console.log("componentWillMount");
-    if(localStorage !== undefined  ){
+    if(localStorage.getItem("data"))
     this.setState({
       tasks : JSON.parse(localStorage.getItem("data"))
     })
-  }
   }
 
   componentDidMount() {
