@@ -1,0 +1,26 @@
+html {
+    font-family: lato;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.fa-times-circle:hover {
+    color: greenyellow;
+    cursor: pointer;
+    transform: scale(150%, 150%);
+}
+
+tr {
+    text-align: center;
+}
+
+h2 {
+    font-weight: bold;
+    padding-bottom: 16px;
+}
+
+.text-center .card .text-white {
+    cursor: pointer;
+}
