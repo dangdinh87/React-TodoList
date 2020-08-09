@@ -1,9 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Sort extends Component {
-    render(){
+  constructor(props) {
+    super(props);
+    this.state = {
+      sort: {
+        by: "name",
+        value: 1,
+      },
+    };
+  }
+  onClick = (sortBy, sortValue) => {
+    setTimeout(() => {
+      this.props.onSort(this.state.sort)
+    }, this.setState({
+      sort : {
+         by : sortBy,
+         value : sortValue
+      }
+    }));
+ 
+  };
+
+  render() {
+    let { sort } = this.state;
     return (
-        <div className="col-6">
+      <div className="col-6">
         <div className="dropdown">
           <button
             className="btn btn-info dropdown-toggle"
@@ -14,23 +36,63 @@ class Sort extends Component {
             Sort &nbsp;
           </button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a className="dropdown-item" href="a">
+            <li
+              className={"dropdown-item "+
+                ((sort.by === "name" && sort.value === 1)
+                  ? "sort_selected "
+                  : "")
+              }
+              href="a"
+              onClick={() => {
+                this.onClick("name", 1);
+              }}
+            >
               <i className="fas fa-sort-alpha-up"></i> Tên A-Z
-            </a>
-            <a className="dropdown-item" href="a">
+            </li>
+            <li
+              className={"dropdown-item "+
+              ((sort.by === "name" && sort.value === -1)
+                ? "sort_selected "
+                : "")
+            }
+              href="a"
+              onClick={() => {
+                this.onClick("name", -1);
+              }}
+            >
               <i className="fas fa-sort-alpha-down"></i> Tên Z-A
-            </a>
+            </li>
             <div className="dropdown-divider"></div>
-            <a className="dropdown-item" href="a">
+            <li
+              className={"dropdown-item "+
+              ((sort.by === "status" && sort.value === 1)
+                ? "sort_selected "
+                : "")
+            }
+              href="a"
+              onClick={() => {
+                this.onClick("status", 1);
+              }}
+            >
               Trạng Thái Kích Hoạt
-            </a>
-            <a className="dropdown-item" href="a">
+            </li>
+            <li
+              className={"dropdown-item "+
+              ((sort.by === "status" && sort.value === -1)
+                ? "sort_selected "
+                : "")
+            }
+              href="a"
+              onClick={() => {
+                this.onClick("status", -1);
+              }}
+            >
               Trạng Thái Ẩn
-            </a>
+            </li>
           </div>
         </div>
       </div>
-  );
-}
+    );
+  }
 }
 export default Sort;

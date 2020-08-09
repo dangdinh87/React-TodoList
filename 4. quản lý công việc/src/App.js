@@ -3,7 +3,6 @@ import "./App.css";
 import Control from "./components/Control";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { css } from "@emotion/core";
 import RingLoader from "react-spinners/RingLoader";
 
@@ -16,13 +15,17 @@ class App extends Component {
       taskEditing: null,
       filter: {
         name: "",
-        status: "-1",
+        status: -1
       },
       keywork: "",
       isLoading: true,
+      sort :{
+        by : 'name',
+        value : 1
+      }
     };
   }
-  componentWillMount() {
+ UNSAFE_componentWillMount() {
     console.log("componentWillMount");
     if(localStorage.getItem("data"))
     this.setState({
@@ -34,7 +37,7 @@ class App extends Component {
     console.log("componentDidMount");
     setTimeout(() => {
       this.setState({ isLoading: false });
-    }, 500);
+    }, 1000);
   }
   s4 = () =>
     Math.floor((1 + Math.random()) * 0x10000)
@@ -117,7 +120,6 @@ class App extends Component {
   };
 
   updateStatus = (id) => {
-    console.log(id)
     let { tasks } = this.state;
     for (const i of tasks) {
       if (i.id === id) {
@@ -156,7 +158,6 @@ class App extends Component {
   };
 
   onFilter = (filterName, filterStatus) => {
-    filterStatus = +filterStatus; //Chuyển từ String sang Number
     this.setState({
       filter: {
         name: filterName.toLowerCase(),
@@ -171,13 +172,25 @@ class App extends Component {
     });
   };
 
-  render() {
+  onSort = (sort) => {
+    setTimeout(() => {
+      console.log("sort")
+    }, this.setState({
+      sort : sort
+    }));
+  
+   
+  }
+
+  render() 
+  {
+    console.log("render")
     const override = css`
       display: block;
       margin: 20% auto;
       border-color: red;
     `;
-    var { tasks, isDisplayForm, taskEditing, filter, keyword } = this.state; // var tasks = this.state.tasks
+    let { tasks, isDisplayForm, taskEditing, filter, keyword ,sort} = this.state; // let tasks = this.state.tasks
     if (filter) {
       if (filter.name) {
         tasks = tasks.filter((task) => {
@@ -185,11 +198,12 @@ class App extends Component {
         });
       }
       tasks = tasks.filter((task) => {
-        if (filter.status === -1) {
+        if (filter.status === -1 ) {
           return task;
         } else {
-          return task.status === (filter.status === 1 ? true : false);
+          return task.status === (parseInt(filter.status) === 1 ? true : false);
         }
+       
       });
     }
     if (keyword) {
@@ -197,6 +211,22 @@ class App extends Component {
         return task.name.toLowerCase().indexOf(keyword) !== -1;
       });
     }
+
+    if( sort.by === 'name' ){
+      tasks.sort((a,b)=>{
+        let nameA = a.name.toLowerCase()
+        let nameB = b.name.toLowerCase()
+        if(nameA > nameB ) return sort.value
+        else if(nameA < nameB) return -sort.value
+        else return 0;
+      })
+    }else
+    tasks.sort((a,b)=>{
+      if(a.status > b.status ) return -sort.value
+      else if(a.status < b.status) return sort.value
+      else return 0;
+    })
+
     var eleDisplayForm = isDisplayForm ? (
       <TaskForm
         onSubmit={this.onSubmit}
@@ -237,7 +267,7 @@ class App extends Component {
             >
               <span className="fas fa-database"></span> Load Data
             </button>
-            <Control onSearch={this.onSearch} />
+            <Control onSearch={this.onSearch} onSort = {this.onSort} />
             <div className="row mt-3">
               <div className="col-12">
                 <TaskList

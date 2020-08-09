@@ -24,3 +24,13 @@ h2 {
 .text-center .card .text-white {
     cursor: pointer;
 }
+
+.sort_selected::after {
+    content: '\f00C';
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-left :40px;
+}
+li .dropdown-item {
+    cursor : pointer
+}
