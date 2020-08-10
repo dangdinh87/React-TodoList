@@ -159,10 +159,10 @@ class App extends Component {
 
   onFilter = (filterName, filterStatus) => {
     this.setState({
-      filter: {
-        name: filterName.toLowerCase(),
-        status: filterStatus,
-      },
+      filter:{
+        name :  filterName.toLowerCase(),
+        status : filterStatus
+      }
     });
   };
 
@@ -198,7 +198,7 @@ class App extends Component {
         });
       }
       tasks = tasks.filter((task) => {
-        if (filter.status === -1 ) {
+        if (filter.status === -1 || filter.status === '-1' ) {
           return task;
         } else {
           return task.status === (parseInt(filter.status) === 1 ? true : false);
@@ -219,6 +219,7 @@ class App extends Component {
         if(nameA > nameB ) return sort.value
         else if(nameA < nameB) return -sort.value
         else return 0;
+        
       })
     }else
     tasks.sort((a,b)=>{
@@ -226,7 +227,7 @@ class App extends Component {
       else if(a.status < b.status) return sort.value
       else return 0;
     })
-
+  
     var eleDisplayForm = isDisplayForm ? (
       <TaskForm
         onSubmit={this.onSubmit}
@@ -251,8 +252,8 @@ class App extends Component {
           <h2>Quản Lý Công Việc</h2>
         </div>
         <div className="row mt-20">
-          <div className={isDisplayForm ? "col-4" : ""}>{eleDisplayForm}</div>
-          <div className={isDisplayForm ? "col-8" : "col-12"}>
+          <div className={isDisplayForm ? "col-10 col-md-4" : ""}>{eleDisplayForm}</div>
+          <div className={isDisplayForm ? "col-0 col-md-8" : "col-12"}>
             <button
               type="button"
               className="btn btn-info"

@@ -23,7 +23,7 @@ class Search extends Component {
   render() {
     let { keyword } = this.state;
     return (
-      <div className="col-6 ">
+      <div className="col-10 col-md-6 ">
         <div className="input-group mb-3">
           <input
             className="form-control "
